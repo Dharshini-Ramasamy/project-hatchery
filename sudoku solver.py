@@ -1,5 +1,4 @@
 import tkinter as tk
-
 # First Page Function
 def start_page():
     root = tk.Tk()
@@ -8,30 +7,33 @@ def start_page():
     root.configure(bg="#f0f8ff")
 
     # Title Label
-    tk.Label(root, text="🧩 Welcome to Sudoku Solver 🧠", font=("Comic Sans MS", 18, "bold"), bg="#f0f8ff", fg="#1a1aff").pack(pady=50)
+    tk.Label(root, text="🧩 Welcome to Sudoku Solver 🧠", font=("Comic Sans MS", 18, "bold"),
+             bg="#f0f8ff", fg="#1a1aff").pack(pady=50)
 
     # Subtext
-    tk.Label(root, text="Click below to get started!", font=("Helvetica", 12), bg="#f0f8ff", fg="gray").pack(pady=10)
+    tk.Label(root, text="Click below to get started!", font=("Helvetica", 12),
+             bg="#f0f8ff", fg="gray").pack(pady=10)
 
     # Start Button
     start_btn = tk.Button(root, text="🚀 Start Sudoku Solver", font=("Arial", 14, "bold"),
-                          bg="#4CAF50", fg="black", padx=20, pady=10, command=lambda: [root.destroy(), sudoku_solver()])
+                          bg="#4CAF50", fg="black", padx=20, pady=10,
+                          command=lambda: [root.destroy(), sudoku_solver()])
     start_btn.pack(pady=30)
 
     root.mainloop()
 
-# Second Page (Your Existing Solver GUI)
+# Second Page (Solver GUI)
 def sudoku_solver():
     root = tk.Tk()
     root.title("Sudoku Solver")
-    root.geometry("500x550")
+    root.geometry("500x580")
 
     tk.Label(root, text="🧠 Fill the Sudoku and Click Solve", font=("Arial", 16, "bold")).grid(row=0, column=1, columnspan=10, pady=10)
 
     errLabel = tk.Label(root, text="", fg="red", font=("Arial", 16))
     errLabel.grid(row=15, column=1, columnspan=10, pady=5)
 
-    solvedLabel = tk.Label(root, text="", fg="green", font=("Arial", 16,"bold"))
+    solvedLabel = tk.Label(root, text="", fg="green", font=("Arial", 16, "bold"))
     solvedLabel.grid(row=16, column=1, columnspan=10, pady=5)
 
     cells = {}
@@ -60,7 +62,7 @@ def sudoku_solver():
         solvedLabel.config(text="")
         for row in range(2, 11):
             for col in range(1, 10):
-                cells[(row, col)].delete(0, tk.END)
+                cells[(row,col)].delete(0,tk.END)
 
     def getValues():
         board = []
@@ -75,7 +77,7 @@ def sudoku_solver():
                 elif val.isdigit() and 1 <= int(val) <= 9:
                     rows.append(int(val))
                 else:
-                    errLabel.config(text="❌ Invalid input! Please enter numbers between 1 and 9.")
+                    errLabel.config(text="❌ Invalid input! Please enter numbers 1-9.")
                     return
             board.append(rows)
 
@@ -101,7 +103,6 @@ def sudoku_solver():
         for i in range(9):
             if (board[row][i] == num and i != col) or (board[i][col] == num and i != row):
                 return False
-
         box_row_start = (row // 3) * 3
         box_col_start = (col // 3) * 3
         for r in range(box_row_start, box_row_start + 3):
@@ -129,7 +130,6 @@ def sudoku_solver():
                 if board[row][col] == 0:
                     return row, col
         return None
-
     def update_grid(board):
         for row in range(9):
             for col in range(9):
@@ -137,11 +137,16 @@ def sudoku_solver():
                 if board[row][col] != 0:
                     cells[(row + 2, col + 1)].insert(0, str(board[row][col]))
 
+
+    
     solveBtn = tk.Button(root, command=getValues, text="Solve", width=10, bg="green", fg="black", font=("Arial", 12, "bold"))
     solveBtn.grid(row=20, column=1, columnspan=5, pady=10)
 
     clearBtn = tk.Button(root, command=clearValues, text="Clear", width=10, bg="red", fg="black", font=("Arial", 12, "bold"))
     clearBtn.grid(row=21, column=1, columnspan=5, pady=5)
+
+    exitBtn = tk.Button(root, command=root.destroy, text="Exit", width=10, bg="gray", fg="black", font=("Arial", 12, "bold"))
+    exitBtn.grid(row=22, column=1, columnspan=5, pady=5)
 
     draw9x9Grid()
     root.mainloop()
